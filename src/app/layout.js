@@ -1,5 +1,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Menu from "@/components/Menu";
+// import ProgressBarProvider from "@/components/ProgressBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,7 +24,12 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        {/* <ProgressBarProvider> */}
+        <div className="p-8">
+          <Menu />
+          {children}
+        </div>
+        {/* </ProgressBarProvider> */}
       </body>
     </html>
   );
