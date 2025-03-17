@@ -12,6 +12,7 @@ const ProgressBarProvider = ({ children }) => {
         color="#fffd00"
         options={{ showSpinner: false }}
         shallowRouting
+        style={{ zIndex: 9999 }}
       />
     </>
   );
