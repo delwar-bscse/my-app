@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 
-export default async function User({children}) {
-  const res = await fetch('http://localhost:3000/profile/api', {cache: 'no-store'});
-  const data = await res.json();
+export default function User() {
+  const [data, setData] = useState({ name: '' });
+
+  useEffect(() => {
+    (async () => {
+      const res = await fetch('http://localhost:3000/profile/api', { cache: 'no-store' });
+      const result = await res.json();
+      setData(result);
+    })();
+  }, []);
+
   return (
     <div>
-      {children}
-      User {data.name}
+      User Name : {data.name}
     </div>
-  )
+  );
 }
