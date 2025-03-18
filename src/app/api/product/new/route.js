@@ -35,7 +35,17 @@ export async function POST(req, res) {
 
 //PUT
 export async function PUT(req, res) {
-  return NextResponse.json({ body: "I am PUT" });
+
+  const reqBody = await req.formData();
+
+  const name = reqBody.get('name');
+  const age = reqBody.get('age');
+
+  return NextResponse.json({ body: {
+    msg: "I am PUT",
+    name: name,
+    age: age
+  }});
 }
 
 
