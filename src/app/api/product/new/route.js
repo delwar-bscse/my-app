@@ -21,7 +21,9 @@ export async function GET(req, res) {
 
 //POST
 export async function POST(req, res) {
-  const reqBody = await req.json();
+
+  const reqBody = await req.json(); // from json body
+
   const name = reqBody['name'];
   const age = reqBody['age'];
 
@@ -36,7 +38,7 @@ export async function POST(req, res) {
 //PUT
 export async function PUT(req, res) {
 
-  const reqBody = await req.formData();
+  const reqBody = await req.formData();  //from form body
 
   const name = reqBody.get('name');
   const age = reqBody.get('age');
@@ -50,12 +52,33 @@ export async function PUT(req, res) {
 
 
 //PATCH
-export async function PATCH(req, res) {
-  return NextResponse.json({ body: "I am PATCH" });
+export async function PATCH( req, res ) {
+  const headerList = await headers();
+  const apiKey = headerList.get('api-key');
+
+  return NextResponse.json({
+    body: "I am PATCH",
+    apiKey: apiKey
+  });
 }
 
 
 //DELETE
 export async function DELETE(req, res) {
-  return NextResponse.json({ body: "I am DELETE" });
+  // const cookieToken =req.cookies.get('Token');
+  // const cookieToken =req.cookies.get('Token')['name'];
+  const cookieToken =req.cookies.get('Token')['value'];
+
+  return NextResponse.json({ 
+    body: "I am DELETE",
+    cookieToken:cookieToken
+   },{
+    status:200,
+    headers:{
+      'token1':'12345-ABCDE',
+      'token2':'12345-ABCDE',
+      'token3':'12345-ABCDE',
+      'Set-Cookie':'Auth=12345-ABCDE;Path=/'
+    }
+   });
 }
