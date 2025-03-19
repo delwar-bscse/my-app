@@ -55,10 +55,14 @@ export async function PUT(req, res) {
 export async function PATCH( req, res ) {
   const headerList = await headers();
   const apiKey = headerList.get('api-key');
+  // const userId = headerList.get('user-id');
+  const resToken = headerList.get('res-token');
 
   return NextResponse.json({
     body: "I am PATCH",
-    apiKey: apiKey
+    apiKey: apiKey,
+    // userId: userId,
+    resToken: resToken
   });
 }
 
