@@ -2,14 +2,30 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 // import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { jwtVerify } from "jose";
 
 export const middleware = async(req,res,next) => {
-  if(req.nextUrl.pathname.startsWith('/api/product')){
-    
-    const res = NextResponse.next();
-    res.headers.set('res-token','12345-ABCDE-res');
+  if(req.nextUrl.pathname.startsWith('/api/profile')){
+    try {
+      const headerList = new Headers(req.headers);
+      const Token = headerList.get('token');
+      const Key = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
+      
+      const decodeValue = await jwtVerify(Token, Key);
+      const username = decodeValue.payload.username;
+      // console.log(username);
 
-    return res;
+      headerList.set('username',username);
+      return NextResponse.next({
+        request:{headers:headerList}
+      });
+
+    } catch (error) {
+      return NextResponse.json({
+        status: "failed - middleware",
+        message: "Unauthorised access"
+      }, { status: 401 });
+    }
   }
 }
 
